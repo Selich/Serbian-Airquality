@@ -22,16 +22,12 @@ Zato što postoji trend izmedju vremena (24 sata) i koncentracije CO i ostalih �
 Algoritmi koji bi se koristili u implementaciji projekta su:
 
 #### Multivarijabilna Linearna Regresija
-Multivariajilna linearna regresija se koristi kada imamo više promenljivih ili (eng. features) koje trebamo uzimati u obzir. Naša funkcija hipoteze se može napisati kao:
-
-$ h_\theta(x) = \theta_0 + \sum\limits_{i=1}^{m} \theta_ix_i$
+Multivariajilna linearna regresija se koristi kada imamo više promenljivih ili (eng. features) koje trebamo uzimati u obzir. 
 
 Odavde, možemo rešiti jednačinu pomoću algoritma opadajućeg gradijenta (eng. Gradient Descent)
 
 #### Mutivarijabilni algoritam opadajuceg gradijenta
-Multivarijabilni kriterijum optimalnosti je sličan kao i univarijabilni:
-
-$J(\overrightarrow{\theta}) = \frac{1}{m} \sum\limits_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})^2$ (nekada $\frac{1}{2m}$ zbog lepšeg izvoda)
+Multivarijabilni kriterijum optimalnosti je sličan kao i univarijabilni.
 
 ## Alati
 Za izgradnju projekta tj. analizu podataka i implementaciju regresije u svrsi saznavanja budućih vrednosti, koristi se **Python** programski jezik,ili konkretnije, **Jupyter Notebook** okruženje.
