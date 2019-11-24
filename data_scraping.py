@@ -69,7 +69,7 @@ from selenium.webdriver.common.keys import Keys
 amskv_url = "http://www.amskv.sepa.gov.rs/pregledpodatakazbirni.php"
 driver = webdriver.Chrome()
 driver.get(amskv_url)
-#%%
+#%%https://yt3.ggpht.com/a-/AAuE7mAwo1CEpcecx08ZEX5QoWq7jQdSgg-CIx-Yqg=s900-mo-c-c0xffffffff-rj-k-no
 
 check_box = driver.find_element_by_xpath("/html/body/div[2]/div[2]/div/div[2]/form/div/div[1]/div[1]/div/label[10]/input")
 check_box.click()
@@ -145,31 +145,11 @@ for i in range(0,NUMBER_OF_ROWS - 1):
 
 df.head()
 #%%
-df.to_csv("./data/amskv_data.csv")
-#%% [markdown]
-# 
-# ## Linearna regresija
-# Linearna regresija (Linear Regression) je jedna od najpoznatijih metoda nadgledanog učenja
-# Za početak bavićemo se prostom linearnom regresijom (simple LR, univariate LR)
-# Imamo jednu ulaznu promenljivu (feature) i jednu izlaznu promenljivu
-# - Notacija:
-#     - $x$: Ulazni podaci (features), $x^{(i)}$: Ulazni podatak iz i-tog trening primera
-#     - $y$: Izlazni podaci (labels), $y^{(i)}$: Izlazni podatak iz i-tog trening primera
-#     - $m$: Veličina trening skupa - broj semplova
-# - Hipoteza (model): $ h_\theta(x) = \theta_0 + \theta_1 x $
-#     - Linearna funkcija
-#     - "Učimo" parametre $\theta_0$ i $\theta_1$, tj. modifikujemo ih tako da budu "što bolji"
-# - Funkcija troška (kriterijumska funkcija, funkcija koštanja, cost function, loss function)
-#     - U ovom slučaju za funkciju troška uzimamo MSE (srednje kvadratno odstupanje, mean squared error)
-#     - $J(\theta_0, \theta_1) = \frac{1}{m} \sum\limits_{i=1}^{m} (h_\theta(x^{(i)} - y^{(i)})^2$ (nekada $\frac{1}{2m}$ zbog lepšeg izvoda)
-#     - Dakle, menjamo $\theta_0$ i $\theta_1$ tako da minimizujemo funkciju troška, kako?
-# - Optimizacija: gradijentni spust (gradient descent): iterativni optimizacioni metod za minimizaciju funkcije
-# - Određuje u kom smeru treba da se krećemo da što efikasnije poboljšamo vrednosti parametara, varijante:
-#     - Stochastic: Računamo funkciju troška za svaki trening primer i ažuriramo parametre jednom po primeru
-#     - Batch: Agregiramo funkciju troška za sve primere u trening skupu i ažuriramo parametre jednom za ceo skup
-#     - Minibatch: Delimo trening skup na manje skupove (batches) fiksne veličine, i nad njima agregiramo funkciju troška, jedno ažuriranje parametara po batch-u
+
+
 
 #%%
+df.to_csv("./data/amskv_data.csv")
 
 
 
