@@ -1,71 +1,82 @@
 import * as WebBrowser from 'expo-web-browser';
-import React from 'react';
+import React, {Component,useEffect, useState} from 'react';
 import {
   Image,
   Platform,
   ScrollView,
   StyleSheet,
+  FlatList,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import axios from 'axios'
 
 import { MonoText } from '../components/StyledText';
 
-export default function HomeScreen() {
+// TODO: Add custom icons
+export default class HomeScreen extends Component {
+
+  state = {
+    data: {}
+  }
+  componentDidMount(){
+    axios.get("http://127.0.0.1:5000/aqi/novisad")
+    .then(res => this.state.data = res.data)
+    .catch(err => console.log(arr))
+  }
+
+  render() {
   return (
     <View style={styles.container}>
       <ScrollView
         style={styles.container}
         contentContainerStyle={styles.contentContainer}>
         <View style={styles.welcomeContainer}>
-          <Image
-            source={
-              __DEV__
-                ? require('../assets/images/robot-dev.png')
-                : require('../assets/images/robot-prod.png')
-            }
-            style={styles.welcomeImage}
-          />
+        
         </View>
 
         <View style={styles.getStartedContainer}>
-          <DevelopmentModeNotice />
+          <CurrentCity/>
 
-          <Text style={styles.getStartedText}>Get started by opening</Text>
-
-          <View
-            style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-            <MonoText>screens/HomeScreen.js</MonoText>
-          </View>
-
-          <Text style={styles.getStartedText}>
-            Change this text and your app will automatically reload.
+          <Text style={styles.score}>
+              42
           </Text>
+
+          <PrintData data={this.state.data}/>
         </View>
 
       </ScrollView>
 
-      <View style={styles.tabBarInfoContainer}>
-        <Text style={styles.tabBarInfoText}>
-            Nikola je peder. Ali ja stariji
-            
-        </Text>
-
-        <View
-          style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-          <MonoText style={styles.codeHighlightText}>
-            navigation/MainTabNavigator.js
-          </MonoText>
-        </View>
-      </View>
     </View>
   );
+
+  }
 }
 
 HomeScreen.navigationOptions = {
   header: null,
 };
+function CurrentCity(){
+    return (
+      <Text style={styles.cityText}>
+        Novi Sad
+      </Text>
+    );
+
+}
+function PrintData({data}){
+    return (
+      <View style={{flex: 1, paddingTop:20}}>
+      <FlatList
+        data={data}
+        renderItem={({item}) => <Text>{item.title}, {item.releaseYear}</Text>}
+        keyExtractor={({id}, index) => id}
+      />
+    </View>
+    );
+
+}
 
 function DevelopmentModeNotice() {
   if (__DEV__) {
@@ -101,11 +112,14 @@ function handleHelpPress() {
     'https://docs.expo.io/versions/latest/workflow/up-and-running/#cant-see-your-changes'
   );
 }
+// TODO: change style sheet based on AQI
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    // backgroundColor: 'red',
+    backgroundColor: "#80d0c7"
+    // background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
   },
   developmentModeText: {
     marginBottom: 20,
@@ -144,12 +158,21 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     paddingHorizontal: 4,
   },
-  getStartedText: {
-    fontSize: 17,
+  cityText: {
+    fontSize: 38,
     color: 'rgba(96,100,109, 1)',
-    lineHeight: 24,
+    lineHeight: 74,
     textAlign: 'center',
   },
+  score: {
+    fontSize: 102,
+    color: '#fff',
+    shadowColor: "#000",
+    shadowRadius: 80,
+    lineHeight: 124,
+    textAlign: 'center',
+  },
+
   tabBarInfoContainer: {
     position: 'absolute',
     bottom: 0,
