@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import axios from 'axios'
+import axios from 'axios';
 
 import { MonoText } from '../components/StyledText';
 
@@ -22,10 +22,8 @@ export default class HomeScreen extends Component {
   }
   componentDidMount(){
     axios.get("http://127.0.0.1:5000/aqi/novisad")
-    .then(res => this.state.data = res.data)
-    .catch(err => console.log(arr))
+          .then(res => this.setState({ data: res.data}));
   }
-
   render() {
   return (
     <View style={styles.container}>
@@ -33,7 +31,6 @@ export default class HomeScreen extends Component {
         style={styles.container}
         contentContainerStyle={styles.contentContainer}>
         <View style={styles.welcomeContainer}>
-        
         </View>
 
         <View style={styles.getStartedContainer}>
