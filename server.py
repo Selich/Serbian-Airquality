@@ -9,14 +9,15 @@ def read_data(city):
     return df.tail().to_json()
 
 
-@app.route('/aqi/<loc>')
+@app.route('/aqi/<loc>', methods=['GET'])
 def get_current_city(loc):
     return read_data(loc)
 
 
-def main():
-    pass
+@app.route('/')
+def index():
+    return "This home"
 
 
 if __name__ == "__main__":
-    main()
+    app.run(threaded=True, port=5000)
