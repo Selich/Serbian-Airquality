@@ -1,4 +1,6 @@
 import numpy as np
+import numpy.fft as fft
+import numpy.linalg as npl
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -25,6 +27,17 @@ class LinearRegression:
 
         return self
 
+def derivative(theta, x, y):
+    derivative = []
+    dt0 = 0
+    dt1 = 0
+    for i in range(0, len(x)):
+        dt0 = dt0 + (h(theta[0], theta[1], x[i]) - y[i])
+        dt1 = dt1 + (h(theta[0], theta[1], x[i]) - y[i]) * x[i]
+    dt0 = dt0 / len(x)
+    dt1 = dt1 / len(x)
+    return [dt0, dt1]
+
 # TODO Implement your own
 def split_dataset(x,y):
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, train_size=0.8)
@@ -36,10 +49,7 @@ def gradient(w, x, y):
     gradient = -(1.0/len(x)) * error.dot(x)
     return gradient, np.pow(error, 2)
 
-def read_data(city):
-    df = pd.read_csv("../data/amskv_" + city.strip().lower() + ".csv")
-    df = df.drop(["Unnamed: 0"], axis=1)
-    return df
+
 
 def rmse(y,y_hat):
     return np.sqrt((np.sum((y_hat - y) ** 2))/ len(y))
@@ -47,9 +57,7 @@ def rmse(y,y_hat):
 
 def estimate_coef(x, y):
     n = np.size(x)
-
     m_x, m_y = np.mean(x), np.mean(y)
-
     SS_xy = np.sum(y * x) - n * m_y * m_x
     SS_xx = np.sum(x * x) - n * m_x * m_x
 
@@ -57,7 +65,6 @@ def estimate_coef(x, y):
     b_0 = m_y - b_1 * m_x
 
     return (b_0, b_1)
-
 
 def plot_regression_line(x, y, b):
     plt.xlabel('x')
@@ -79,12 +86,12 @@ def main():
     x = data["Vreme"]
     y = data["CO [mg.m-3]"]
     y = y[y < 3.2]
-        y = val
-        x = np.linspace(0,len(y),len(y))
-        x_train, x_test, y_train, y_test = split_dataset(x, y)
-        b = estimate_coef(x_train, y_train)
+    x = np.linspace(0,len(y),len(y))
+    x_train, x_test, y_train, y_test = split_dataset(x, y)
+    b = estimate_coef(x_train, y_train)
 
-        plot_regression_line(x, y, b)
+    y_pred = plot_regression_line(x, y, b)
+
 
 
 if __name__ == "__main__":
