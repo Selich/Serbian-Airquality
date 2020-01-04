@@ -4,6 +4,26 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 
+class LinearRegression:
+
+    def predict(self, X):
+        return np.dot(X, self._W)
+
+    def _gradient_descent_step(self, X, targets, lr):
+        predictions = self.predict(X)
+
+        error = predictions - targets
+        gradient = np.dot(X.T, error) / len(X)
+
+        self._W -= lr * gradient
+
+    def fit(self, X, y, n_iter=100000, lr=0.01):
+        self._W = np.zeros(X.shape[1])
+
+        for i in range(n_iter):
+            self._gradient_descent_step(x, y, lr)
+
+        return self
 
 # TODO Implement your own
 def split_dataset(x,y):
@@ -48,15 +68,23 @@ def plot_regression_line(x, y, b):
     plt.plot(x, y_pred, color="g")
     plt.show()
 
+def loss(h, y):
+  sq_error = (h - y)**2
+  n = len(y)
+  return 1.0 / (2*n) * sq_error.sum()
+
+# TODO CO ne moze linearno -> previse je kompleksno kretanje
 def main():
     data = read_data("beograd")
     x = data["Vreme"]
     y = data["CO [mg.m-3]"]
-    x = np.linspace(0,721,721)
-    x_train, x_test, y_train, y_test = split_dataset(x, y)
-    b = estimate_coef(x_train, y_train)
+    y = y[y < 3.2]
+        y = val
+        x = np.linspace(0,len(y),len(y))
+        x_train, x_test, y_train, y_test = split_dataset(x, y)
+        b = estimate_coef(x_train, y_train)
 
-    plot_regression_line(x, y, b)
+        plot_regression_line(x, y, b)
 
 
 if __name__ == "__main__":
