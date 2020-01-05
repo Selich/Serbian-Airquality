@@ -32,6 +32,9 @@ const LinksStack = createStackNavigator(
   },
   config
 );
+LinksStack.navigationOptions = {
+    tabBarLabel: 'History',
+};
 
 
 const SettingsStack = createStackNavigator(
@@ -42,7 +45,7 @@ const SettingsStack = createStackNavigator(
 );
 
 SettingsStack.navigationOptions = {
-  tabBarLabel: 'Details',
+  tabBarLabel: 'Prediction',
 };
 
 SettingsStack.path = '';

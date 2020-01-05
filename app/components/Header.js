@@ -5,8 +5,6 @@ export class Header extends Component {
     render() {
         return (
             <View style={{marginTop: 44, height: 209, width: 209, alignItems: 'center'}}>
-                <Image style={{position: 'absolute', top: 0, left: 0, height: 209, width: 209,}}
-                       source={require('../images/circle.png')}></Image>
                 <Text style={styles.aqi}>{this.props.aqi}</Text>
                 <Text style={styles.desc}>{this.props.desc}</Text>
             </View>
@@ -31,4 +29,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default AQIHeader;
+export default Header;
