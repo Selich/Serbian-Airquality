@@ -4,8 +4,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from algorithms.ridge import Ridge
 from util.helper_functions import read_data, split_dataset
+from util.aqi import AQI
 
-def main():
+def test_ridge():
     data = read_data("beograd")
     x = data["Vreme"].values
     x = np.linspace(0, len(x), len(x))
@@ -18,6 +19,22 @@ def main():
     xmax = x.max()
     plt.plot([0, xmax], [b, b + a * xmax], color="k")
     plt.show()
+
+def test_aqi():
+    data = read_data("beograd")
+    x = data["Vreme"].values
+    x = np.linspace(0, len(x), len(x))
+    y = data["CO [mg.m-3]"].ffill(axis=0).values
+
+    conc = y[568]
+    print(conc)
+
+    aqi = AQI(conc,"CO")
+    print(aqi.get_value())
+
+
+def main():
+    test_aqi()
 
 
 
