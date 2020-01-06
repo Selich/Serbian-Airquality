@@ -2,7 +2,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from algorithms.ridge import Ridge
+from algorithms.Regression import Regression
 from util.helper_functions import read_data, split_dataset
 from sklearn.model_selection import train_test_split
 from util.aqi import AQI
@@ -12,7 +12,8 @@ def test_ridge():
     x = data["Vreme"].values
     x = np.linspace(0, len(x), len(x))
     y = data["CO [mg.m-3]"].ffill(axis=0).values
-    model.fit(x, y)
+    model = Regression(1.)
+    model.fit(x, y,"ridge")
     b, a = model.w
     plt.scatter(x, y, color="g")
     plt.plot([0, x.max()], [b, b + a * x.max()], color="k")
@@ -37,8 +38,8 @@ def test_prediction():
     x = np.linspace(0, len(x), len(x))
     y = data["CO [mg.m-3]"].ffill(axis=0).values
     x_train, x_test, y_train, y_test = train_test_split(x,y)
-    model = Ridge(1.)
-    model.fit(x_train, y_train)
+    model = Regression(1.)
+    model.fit(x_train, y_train,"ridge")
     b, a = model.w
     plt.scatter(x, y, color="g")
     plt.plot([0, x_train.max()], [b, b + a * x_train.max()], color="k")
