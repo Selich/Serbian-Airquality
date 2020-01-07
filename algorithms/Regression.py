@@ -1,8 +1,9 @@
 import numpy as np
+from algorithms import Model
 from scipy import linalg
 
 
-class Regression:
+class Regression(Model):
 
     def __init__(self, lambda_=1.):
         self.lambda_ = lambda_  # λ
@@ -20,6 +21,6 @@ class Regression:
         b = np.dot(Xtil.T, t)
         self.w = linalg.solve(A, b)
 
-    def predict(self, X):
+    def predict(self, x):
         b, a = self.w
-        return b + a * X
+        return b + a * x
