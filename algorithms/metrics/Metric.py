@@ -1,3 +1,4 @@
+import numpy as np
 from algorithms.metrics.R2 import R2
 
 
@@ -7,17 +8,28 @@ class Metric:
         self.y = y
         self.yy = yy
 
-    def eval(self, type):
+    def mae(self) -> float:
+        ret = sum(np.abs(self.y - self.yy))
+        return ret
+
+    def mse(self) -> float:
+        ret = np.square(self.y - self.yy).mean()
+        return ret
+
+    def eval(self, tip: str) -> float:
         """
 
-        :param type: Tip metrike
+        :param tip: Tip metrike
         :return: Evaluacija
         """
-        if type == 'R2':
+        if tip == 'R2':
             r2 = R2(self.y, self.yy)
             return r2.eval()
-        elif type == 'RMSE':
-            pass
+        elif tip.lower() == 'mse':
+            return self.mse()
+        elif tip.lower() == 'mae':
+            return self.mae()
+
 
 
 

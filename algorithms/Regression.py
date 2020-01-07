@@ -6,20 +6,21 @@ from scipy import linalg
 class Regression(Model):
 
     def __init__(self, lambda_=1.):
-        self.lambda_ = lambda_  # λ
+        self.lambda_ = lambda_
         self.w = None
 
-    def fit(self, X, t, mode="ridge"):
-        Xtil = np.c_[np.ones(X.shape[0]), X]
+    def fit(self, x, t, mode="ridge") -> None:
+        xtil = np.c_[np.ones(x.shape[0]), x]
+        c = np.eye(xtil.shape[1])
 
-        if mode == "ridge":
-            c = np.eye(Xtil.shape[1]) ** 2
-        elif mode == "lasso":
-            c = np.norm(np.eye(Xtil.shape[1]))
+        if mode.lower() == "ridge":
+            c = c ** 2
+        elif mode.lower() == "lasso":
+            c = np.norm(c)
 
-        A = np.dot(Xtil.T, Xtil) + self.lambda_ * c
-        b = np.dot(Xtil.T, t)
-        self.w = linalg.solve(A, b)
+        a = np.dot(xtil.T, xtil) + self.lambda_ * c
+        b = np.dot(xtil.T, t)
+        self.w = linalg.solve(a, b)
 
     def predict(self, x):
         b, a = self.w
