@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from util.aqi import AQI
+from algorithms.metrics import Metric
 from sklearn.model_selection import train_test_split
 from algorithms.Regression import *
 
@@ -32,8 +33,9 @@ def test_aqi(data):
 
 def test_metrics(x, y, model: Model):
     yy = model.predict
-    r2_ret = R2(y, yy)
-    return r2_ret
+    metric = Metric(y, yy)
+    ret = metric.eval("mse")
+    return ret
 
 
 
