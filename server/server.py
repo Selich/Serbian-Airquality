@@ -2,6 +2,7 @@ import pandas as pd
 import json
 from flask import Flask
 from util.helper_functions import read_data
+
 app = Flask(__name__)
 
 def read_prediction_aqi(city):
@@ -19,6 +20,7 @@ def get_current_city(loc):
 @app.route('/')
 def index():
     return "This home"
+
 
 if __name__ == "__main__":
     app.run(threaded=True, port=5000)
