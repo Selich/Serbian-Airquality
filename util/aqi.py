@@ -10,7 +10,6 @@ constraints = {
 }
 
 
-
 class AQI():
     def __init__(self, conc=0, gas="AQI"):
         self.conc = conc
