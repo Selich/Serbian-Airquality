@@ -1,5 +1,5 @@
 import numpy as np
-from algorithms.metrics.R2 import R2
+import math
 
 
 class Metric:
@@ -8,12 +8,18 @@ class Metric:
         self.y = y
         self.yy = yy
 
-    def mae(self) -> float:
-        ret = sum(np.abs(self.y - self.yy))
+    def mae(self):
+        ret = sum(np.abs(self.y - self.yy)) / len(self.y)
         return ret
 
-    def mse(self) -> float:
-        ret = np.square(self.y - self.yy).mean()
+    def rmse(self):
+        ret = math.sqrt(sum(np.square(self.y - self.yy)) / len(self.y))
+        return ret
+
+    def r2(self):
+        y = self.y
+        yy = self.yy
+        ret = sum((yy-sum(y)/len(y))**2) / sum((y - sum(y)/len(y))**2)
         return ret
 
     def eval(self, tip: str) -> float:
@@ -22,15 +28,12 @@ class Metric:
         :param tip: Tip metrike
         :return: Evaluacija
         """
-        if tip == 'R2':
-            r2 = R2(self.y, self.yy)
-            return r2.eval()
-        elif tip.lower() == 'mse':
-            return self.mse()
+        if tip == 'r2':
+            ret = self.r2()
+            return ret
+        elif tip.lower() == 'rmse':
+            ret = self.rmse()
+            return ret
         elif tip.lower() == 'mae':
-            return self.mae()
-
-
-
-
-
+            ret = self.mae()
+            return ret

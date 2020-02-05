@@ -3,7 +3,7 @@ from algorithms import Model
 from scipy import linalg
 
 
-class Regression:
+class Regression():
 
     def __init__(self, lambda_=1.):
         self.lambda_ = lambda_

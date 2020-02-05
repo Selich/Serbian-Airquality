@@ -3,25 +3,42 @@
 **Autor**: *Nikola Selić IN-43-2017*
 
 ## Pokretanje
+
+Radi jednostavnije upotrebe, postoje dve datoteke koje služe za instalaciju potrebnih biblioteka, kao i za pokretanje glavne skripte.
+
+Za instalaciju pokrenite u bilo kakvom shell okruženju:
+
   ```bash
-  python main.py
+  bash install.sh
   ```
+Pri prvom pokretanju datoteke aktiviraće se virtualno okruženje (virtualenv) koje će obezbediti sve potrebne biblioteke za pokretanje.
+
+Za pokretanje main.py skripte u posebnom virtuelnom okruženju:
+
+  ```bash
+  bash run.sh
+  ```
+
+U samoj main.py datoteci postoji pristup metodama za testiranje.
+
+Datoteka testing_funcitons.py sadrži metode za testiranje svih delova implementacije.
+
 ## Struktura projekta 
 Pokretanje 
-- /algorithms
-    - Koristimo za rad nad matricama
-- /server
-    - Omogucava dobru organizaciju podataka i rad sa ključevima kao i ostalim obeležijama
-- /util
-    - Služi za slanje http zahteva koji koristimo za pozivaje API-a
 - /app
-    - Koristi se za automatsko korišćenje internet pretraživaca
+    - Sama aplikacija koja sluzi za prikaz kvaliteta vazduha
+- /algorithms
+    - Sadrzi implementaciju algoritama regresije i metrike
+- /server
+    - Server koji sluzi kao API za slanje podataka aplikaciji
+- /util
+    - Pomocne metode i klase koji pomazu pri obradi podataka
 - /docs
-    - Omogućava čitanje html stranica i izvlačenja informacija iz iste
+    - Predlog projekta, prezentacija kao i ostali jupyter-notebook-ovi koji se koriste
 - /data
-    - Omogućava čitanje html stranica i izvlačenja informacija iz iste
+    - Sami podaci
 
-### U projektima je potrebno obuhvatiti:
+### U projektiu je potrebno obuhvatiti:
  - [ ] analizu obeležja koja najviše utiču na sam rezultat regresije i koja daju najbolji rezultat (više regresionih
 polinoma sa različitim svojstvima)
  - [ ] analizu stepena regresionog polinoma i selektovanje najboljeg (sa najmanjom greškom)
