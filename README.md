@@ -1,5 +1,5 @@
 
-# Analiza i predvidjanje kvaliteta vazduha u Novom Sadu
+# Analiza i predvidjanje kvaliteta vazduha na teritoriji Republike Srbije
 **Autor**: *Nikola Selić IN-43-2017*
 
 ## Pokretanje
@@ -38,7 +38,7 @@ Pokretanje
 - /data
     - Sami podaci
 
-### U projektiu je potrebno obuhvatiti:
+### U projektu je potrebno obuhvatiti:
  - [ ] analizu obeležja koja najviše utiču na sam rezultat regresije i koja daju najbolji rezultat (više regresionih
 polinoma sa različitim svojstvima)
  - [ ] analizu stepena regresionog polinoma i selektovanje najboljeg (sa najmanjom greškom)
