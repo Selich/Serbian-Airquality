@@ -10,6 +10,24 @@ class Regression():
         self.w = None
 
     def fit(self, x, t, mode="ridge") -> None:
+
+        '''
+        Konkatenaciju matrice oblika
+           [ 1 x0
+             1 x1
+             1 x2
+
+        i konstruisemo vektor c koji ce nam sluziti kao bias
+
+
+        U zavisnosti kakav bias smo izabrali, koristicemo c
+
+        vektor a i b predstavljaju samu implementaciju date formule
+
+        linalg.solve resava sistem jednacina da bismo dobili odgovarajuce tezine aproksimiranog polinoma
+
+        '''
+
         xtil = np.c_[np.ones(x.shape[0]), x]
         c = np.eye(xtil.shape[1])
 
@@ -23,5 +41,8 @@ class Regression():
         self.w = linalg.solve(a, b)
 
     def predict(self, x):
+        '''
+        Primenjujemo odgovarajuce tezine na linearni polinom
+        '''
         b, a = self.w
         return b + a * x
