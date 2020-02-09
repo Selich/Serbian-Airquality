@@ -6,9 +6,16 @@ import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 
+import axios from 'axios'
+
+
 import AppNavigator from './navigation/AppNavigator';
 
 export default function App(props){
+
+  const [grad,setGrad] = useState("")
+
+
 
   const [isLoadingComplete, setLoadingComplete] = useState(false);
 
@@ -49,6 +56,12 @@ function handleLoadingError(error) {
 
 function handleFinishLoading(setLoadingComplete) {
   setLoadingComplete(true);
+
+  grad = this.state.grad
+
+  url = "http://localhost:8100/" + grad
+
+  axios.get(url)
 }
 
 const styles = StyleSheet.create({

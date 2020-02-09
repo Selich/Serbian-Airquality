@@ -1,0 +1,28 @@
+.welcome-card img {
+  max-height: 35vh;
+  overflow: hidden;
+}
+
+
+.aqi-card {
+  background-image: linear-gradient(to top, hsl(98, 100%, 86%) 0%, white 100%);
+  text-align: left;
+  padding-top: 10%;
+  margin-top: 30%;
+  margin-bottom: 30%;
+
+}
+.aqi-city{
+  margin: 0;
+  font-size: large;
+}
+.aqi-score {
+  font-size: 45px;
+}
+
+.aqi-content{
+  background-image: linear-gradient(to top, hsl(98, 100%, 86%) 0%, white 100%);
+  box-shadow: 0 10px 10px black;
+  padding: 10;
+
+}
