@@ -14,7 +14,7 @@ def get_current_city(loc):
     return read_data(loc)
 
 @app.route('/prediction/<loc>', methods=['GET'])
-def get_current_city(loc):
+def get_prediction_city(loc):
     return read_prediction(loc)
 
 @app.route('/')
