@@ -1,13 +1,26 @@
 import numpy as np
+import pandas as pd
 from algorithms import Model
 from scipy import linalg
 
 
 class Regression():
 
-    def __init__(self, lambda_=1.):
+    def __init__(self, x, y, lambda_=1., alpha=0.01,iters = 1000):
+        self.x = x
+        self.y = y
         self.lambda_ = lambda_
         self.w = None
+        self.alpha = alpha
+        self.iters = iters
+        self.theta = None
+        ones = np.ones([x.shape[0],1])
+        x = np.concatenate((ones,X),axis=1)
+
+        y = my_data.iloc[:,2:3].values
+        self.theta = np.zeros([1,3])
+
+        
 
     def fit(self, x, t, mode="ridge") -> None:
 
@@ -39,6 +52,26 @@ class Regression():
         a = np.dot(xtil.T, xtil) + self.lambda_ * c
         b = np.dot(xtil.T, t)
         self.w = linalg.solve(a, b)
+
+
+
+    def calc_cost(self,x,y):
+
+        summ = np.power((( x @ self.theta.T) - y), 2)
+
+        return np.sum(summ)/ ( 2 * len(x))
+
+    def gradient_descend():
+        x = self.x
+        y = self.y
+        cost = np.zeros(self.iters)
+        for i in range(self.iters):
+            self.theta = self.theta - (self.alpha/len(x)) * np.sum(x * (x @ self.ftheta.T - y), axis=0)
+            self.cost[i] = calc_cost(X, y, theta)
+
+    def print_cost():
+        print("Cost: ", self.cost)
+
 
     def predict(self, x):
         '''

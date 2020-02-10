@@ -37,6 +37,40 @@ def test_metrics(y, model,tip):
     ret = metric.eval(tip)
     return ret
 
+def norm(x: pd.DataFrame):
+    return (x - x.mean()) / x.std()
+
+def test_multivar(data, atributes):
+    data = norm(data[atributes])
+    y = data.ffill(axis=0).values
+    X = np.linspace(0, len(y), len(y))
+
+    ones = np.ones([X.shape[0],1])
+    X = np.concatenate((ones,X),axis=1)
+
+    theta = np.zeros([1,3])
+
+    alpha = 0.01
+    iters = 1000
+    g,cost = gradient_descent(X,y,theta,iters,alpha)
+
+    print(g)
+
+    finalCost = compute_cost(X,y,g)
+    print(finalCost)
+
+def compute_cost(X,y,theta):
+    tobesummed = np.power(((X @ theta.T)-y),2)
+    return np.sum(tobesummed)/(2 * len(X))
+
+def gradient_descent(X,y,theta,iters,alpha):
+    cost = np.zeros(iters)
+    for i in range(iters):
+        theta = theta - (alpha/len(X)) * np.sum(X * (X @ theta.T - y), axis=0)
+        cost[i] = compute_cost(X, y, theta)
+    
+    return theta,cost
+
 
 def test_prediction(data, val):
     x = data["Vreme"].values
