@@ -3,9 +3,11 @@
   overflow: hidden;
 }
 
+.master{
+  background-image: linear-gradient(to bottom, hsl(207, 50%, 55%) 0%, white 100%);
+}
 
 .aqi-card {
-  background-image: linear-gradient(to top, hsl(98, 100%, 86%) 0%, white 100%);
   text-align: left;
   padding-top: 10%;
   margin-top: 30%;
@@ -18,7 +20,14 @@
 }
 .aqi-score {
   font-size: 45px;
+  text-align: center;
+  color:white;
+  border-width: 1px;
+  padding-top: 50px;
+  border: 2px solid white;
+  border-radius: 50%;
 }
+
 
 .aqi-content{
   background-image: linear-gradient(to top, hsl(98, 100%, 86%) 0%, white 100%);
