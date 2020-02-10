@@ -11,7 +11,7 @@ constraints = {
 
 
 class AQI():
-    def __init__(self, conc=0, gas="AQI"):
+    def __init__(self, conc = 0, gas="AQI"):
         self.conc = conc
         for i in range(0,len(constraints[gas]) - 1):
             if constraints[gas][i] < self.conc <= constraints[gas][i+1]:
@@ -26,4 +26,6 @@ class AQI():
 
     def get_value(self):
         return self.aqi
+
+
 

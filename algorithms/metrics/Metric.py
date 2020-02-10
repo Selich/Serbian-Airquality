@@ -20,6 +20,7 @@ class Metric:
         y = self.y
         yy = self.yy
         ret = sum((yy-sum(y)/len(y))**2) / sum((y - sum(y)/len(y))**2)
+
         return ret
 
     def eval(self, tip: str) -> float:

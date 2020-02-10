@@ -13,7 +13,6 @@ def objective_fn(X, Y, beta, lambd):
 def mse(X, Y, beta):
     return (1.0 / X.shape[0]) * loss_fn(X, Y, beta).value
 
-
 def print_menu():
     print("Izaberite opciju")
     print("\t1. Ucitajte dataset")
