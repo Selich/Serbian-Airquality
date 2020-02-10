@@ -34,24 +34,31 @@ const fetchData = (url: string) => (
 const Tab1: React.FunctionComponent = () => {
 
   const [url, setUrl] = useState('')
-  const [data, setData] = useState({})
+  const [pastData, setPastData] = useState([])
+  const [futureData, setFutureData] = useState([])
+  const [city, setCity] = useState('novisad')
+
 
   useEffect(() => {
-    fetchData(url).then(data => setData(data.data))
-  }, []);
+    axios.get('/aqi/' + city)
+    .then(res => setPastData(res.data))
+  }, [city]);
 
 
   return (
     <IonPage >
       <IonHeader>
         <IonToolbar>
-          <IonTitle>grad</IonTitle>
+          <IonTitle>{city}</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
         <div className="master">
-       <IonCardTitle className="aqi-score">45</IonCardTitle>
-       <IonCardSubtitle className="aqi-city">Novi Sad</IonCardSubtitle>
+          { pastData.forEach(row => {console.log(row);
+          })
+          }
+        <IonCardTitle className="aqi-score">45</IonCardTitle>
+        <IonCardSubtitle className="aqi-city">Novi Sad</IonCardSubtitle>
         </div>
       </IonContent>
     </IonPage>

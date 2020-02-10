@@ -50,5 +50,6 @@
   "devDependencies": {
     "@capacitor/cli": "1.5.0"
   },
-  "description": "An Ionic project"
+  "description": "An Ionic project",
+  "proxy": "https://flask-app-airquality.herokuapp.com"
 }

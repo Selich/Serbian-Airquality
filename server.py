@@ -1,12 +1,16 @@
 import pandas as pd
 import json
 from flask import Flask
-from util.data_processing import read_data
 
 app = Flask(__name__)
 
 def read_prediction_aqi(city):
     df = pd.read_csv("./data/prediction_" + city.strip().lower() + ".csv")
+    return df.tail().to_json()
+
+def read_data(city):
+    df = pd.read_csv("./data/amskv_" + city.strip().lower() + ".csv")
+    df = df.drop(["Unnamed: 0"], axis=1)
     return df.tail().to_json()
 
 @app.route('/aqi/<loc>', methods=['GET'])
