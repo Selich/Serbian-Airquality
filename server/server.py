@@ -1,7 +1,7 @@
 import pandas as pd
 import json
 from flask import Flask
-from util.helper_functions import read_data
+from util.data_processing import read_data
 
 app = Flask(__name__)
 
