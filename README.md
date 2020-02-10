@@ -39,12 +39,14 @@ Pokretanje
     - Sami podaci
 
 ### U projektu je potrebno obuhvatiti:
- - [ ] Multivarijabilna regresija
+ - [x] Multivarijabilna regresija
  - [ ] Analiza dobijenih rezultata ( 14, 10, 7, 4 ) dana
  - [ ] Uporedno prikazivanje period kretanja za par gradova
- - [ ] analizu obeležja koja najviše utiču na sam rezultat regresije i koja daju najbolji rezultat (više regresionih polinoma sa različitim svojstvima)
- - [ ] Sta nam rezultati govore
+ - [ ] Analizu obeležja koja najviše utiču na sam rezultat regresije i koja daju najbolji rezultat (više regresionih polinoma sa različitim svojstvima)
  - [ ] analizu stepena regresionog polinoma i selektovanje najboljeg (sa najmanjom greškom)
- - [ ] selektovanje stepena regresionog polinoma korišćenjem nekih formi regularizacije (ridge, lasso,...)
+ - [ ] selektovanje stepena regresionog polinoma korišćenjem nekih formi regularizacije (ridge, lasso)
  - [ ] evaluaciju rezultata – korišćenjem mera kao što su koeficijent determinacije i standardnu grešku procene
+ - [ ] Ionic app
+ - [x] Server
+ - [x] Deploy na Heroku
  - [ ] Zakljucak 
