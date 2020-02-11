@@ -8,27 +8,14 @@ from util.helper_functions import *
 from util.aqi import AQI
 
 gradovi = [ "novisad", "beograd", "uzice", "cacak", "nis" ]
-degrees = [i for i in range(1,7)]
-def populate_aqi(data: pd.DataFrame):
-    aqi_series = pd.Series(index=data.index)
-    names = list(data.columns)
-    max_aqi = 0
-    for idx, row in data.iterrows():
-        for name in names:
-            try:
-                temp_aqi = AQI(row[name], name)
-                if temp_aqi > max_aqi:
-                    max_aqi = temp_aqi
-            except expression as identifier:
-                pass
-        aqi_series.loc[idx] = max_aqi
-    
-    return aqi_series
-        
         
 def mse(y,yy,theta):
     tobesummed = np.power((y-yy),2)
     return np.sum(tobesummed)/(2 * len(y))
+
+def norm(data):
+    data = (data - data.min()) / (data.max() - data.min())
+    return data
 
 def gradient_descent(X,y,theta,iters,alpha):
     cost = np.zeros(iters)
@@ -38,30 +25,8 @@ def gradient_descent(X,y,theta,iters,alpha):
     
     return theta,cost
 
-def norm(data):
-    data = (data - data.min()) / (data.max() - data.min())
-    return data
-
-def mutlivar(data, atributi):
-    theta = np.zeros([1,3])
-    alpha = 0.01
-    iters = 1000
-    # X1 = data[atributi]
-    X1 = data.iloc[:,0:2]
-    X2 = data.iloc[:,1:3]
-    ones = np.ones([X.shape[0],1])
-    X1 = np.concatenate((ones,X),axis=1)
-    X2 = np.concatenate((ones,X),axis=1)
-    y1 = data.iloc[:,3:4].values 
-    y2 = data.iloc[:,3:4].values 
-
-    w,cost = gradient_descent(X,y,theta,iters,alpha) 
-    w,cost = gradient_descent(X,y,theta,iters,alpha) 
-    return w
-
 def aqi_calc():
     # hiperparametri
-    theta = np.zeros([1,3])
     alpha = 0.01
     iters = 1000
 
@@ -80,26 +45,16 @@ def aqi_calc():
         val3 = AQI(data.loc[i,atributi[2]],atributi[2]).get_value()
         data.loc[i,"AQI"] = max( val1, val2, val3 )
 
-    X1 = data.iloc[:,0:2]
-    X1 = norm(X1)
-    ones = np.ones([X1.shape[0],1])
-    X1 = np.concatenate((ones,X1),axis=1)
-    y = data.iloc[:,3:4].values 
+    model = MultiVariant(3,alpha,iters)
+    model.fit(data)
+    return model.w
 
-    x1_train, x1_test, y_train, y_test = train_test_split(X1,y)
-    w,cost = gradient_descent(x1_train,y_train,theta,iters,alpha) 
-    yy = (x1_test @ w.T)
-    yy2 = (X1 @ w.T)
-    print(w)
-    return w
-
-# TODO: Weights in dict for every atribute
-
-def find_aqi(city, atributi):
+def find_and_save_aqi(city, atributi):
     w = aqi_calc()
 
     data = read_data(city)
     data = data[atributi]
+
     X1 = norm(data.iloc[:,0:2])
     ones = np.ones([X1.shape[0],1])
     X1 = np.concatenate((ones,X1),axis=1)
@@ -107,13 +62,6 @@ def find_aqi(city, atributi):
     yy = (X1 @ w.T)
     yy = np.around(yy, decimals=0)
     np.savetxt("./data/aqi_" + city + ".csv", yy, delimiter=",")
-    return yy
-
-def update_weights(x,y):
-    x_train, x_test, y_train, y_test = train_test_split(x, y)
-    model = Regression(1.)
-    model.fit(x_train, y_train,"ridge")
-    return model
 
 def test_prediction():
     metric = Metric(y_test, yy_test)
@@ -125,51 +73,70 @@ def test_prediction():
     print("mae: " + str(mae))
     print("mse: " + str(rmse))
     
-def predict(city, interval):
+def predict(city, interval, stepen):
     data = read_data(city)
     data.drop(data.tail(1).index,inplace=True)
     x = data["Vreme"].values
     y = pd.read_csv("./data/aqi_" + city + ".csv")
 
     x = np.linspace(0,len(x),len(x))
-    model = update_weights(x,y)
-    b, a = model.w
-
-
-    x = np.linspace(0,interval,interval)
-    yy = b + a * x
-    yy = yy.mean()
+    model = Regression()
+    yy = model.fit(x,y,stepen)
     return yy
 
+class MultiVariant():
+
+    def __init__(self,num_dots = 3,alpha=0.01,iters=1000):
+        self.w = None
+        self.theta = np.zeros([1,num_dots])
+        self.alpha = alpha
+        self.iters = iters
+
+    def fit(self, data):
+        theta = self.theta
+        alpha = self.alpha
+        iters = self.iters
+        X1 = data.iloc[:,0:2]
+        X1 = norm(X1)
+
+        ones = np.ones([X1.shape[0],1])
+        X1 = np.concatenate((ones,X1),axis=1)
+
+        y = data.iloc[:,3:4].values 
+
+        x1_train, x1_test, y_train, y_test = train_test_split(X1,y)
+
+        w,cost = gradient_descent(x1_train,y_train,theta,iters,alpha) 
+        yy = (x1_test @ w.T)
+        yy2 = (X1 @ w.T)
+        self.w = w
     
-
-
+        
 class Regression():
 
-    def __init__(self,lambda_=1., alpha=0.01,iters = 1000):
+    def __init__(self,lambda_=1.):
         self.lambda_ = lambda_
         self.w = None
 
-        
+    def fit(self, x, t, stepen, mode="ridge"):
 
-    def fit(self, x, t,mode="ridge") -> None:
+        if stepen == 1:
+            xtil = np.c_[np.ones(x.shape[0]), x]
 
-        xtil = np.c_[np.ones(x.shape[0]), x]
-        c = np.eye(xtil.shape[1])
+            c = np.eye(xtil.shape[1])
 
-        if mode.lower() == "ridge":
-            c = c ** 2
-        elif mode.lower() == "lasso":
-            c = np.norm(c)
+            if mode.lower() == "ridge":
+                c = c ** 2
+            elif mode.lower() == "lasso":
+                c = np.norm(c)
 
-        a = np.dot(xtil.T, xtil) + self.lambda_ * c
-        b = np.dot(xtil.T, t)
-        self.w = linalg.solve(a, b)
-
-
-    def predict(self, x):
-        '''
-        Primenjujemo odgovarajuce tezine na linearni polinom
-        '''
-        b, a = self.w
-        return b + a * x
+            a = np.dot(xtil.T, xtil) + self.lambda_ * c
+            b = np.dot(xtil.T, t)
+            w1,w2 = linalg.solve(a, b)
+            return w1 + w2 * x
+        elif stepen == 2:
+            self.w = np.polyfit(x,t,2)
+            return self.w[2] + self.w[1] * x + self.w[0] * x ** 2
+        elif stepen == 3:
+            self.w = np.polyfit(x,t,3)
+            return self.w[3] + self.w[2] * x + self.w[1] * x ** 2 + self.w[0] * x ** 3

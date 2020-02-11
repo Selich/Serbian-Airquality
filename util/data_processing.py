@@ -2,32 +2,12 @@ import pandas as pd
 import numpy as np
 
 
-def fill_nan(df: pd.DataFrame, mode="bfill") -> pd.DataFrame:
-    if mode == "ffill":
-        df = df.ffill(axis=0)
-    else:
-        df = df.bfill(axis=0)
-    return df
-
-
-def split_dataset(x, y):
-    train_size = int(round(len(x) * 0.8))
-
-    x_train = x[:train_size]
-    x_test = x[train_size:]
-    y_train = x[:train_size]
-    y_test = x[train_size:]
-    return x_train, x_test, y_train, y_test
-
-
 def read_data(city, without_nan=True) -> pd.DataFrame:
     df = pd.read_csv("./data/amskv_" + city.strip().lower() + ".csv")
     df = df.drop(["Unnamed: 0"], axis=1)
     if without_nan:
         df = fill_nan(df, "bfill")
-
     return df
-
 
 def get_all_data() -> pd.DataFrame:
     df = pd.DataFrame()
@@ -56,6 +36,5 @@ def get_all_data() -> pd.DataFrame:
 def one_hot_encode(df: pd.DataFrame) -> pd.DataFrame:
     df = pd.concat([df, pd.get_dummies(df['Mesto'], prefix='Mesto')], axis=1)
     return df
-
 
 
