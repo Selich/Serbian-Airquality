@@ -1,8 +1,8 @@
 .circular-chart {
   display: block;
-  margin: 20px auto;
+  margin: 10% auto;
   max-width: 100%;
-  max-height: 250px;
+  max-height: 300px;
 }
 
 .circular-bg {
@@ -14,7 +14,7 @@
 }
 
 .percentage {
-  font-size: 1.3rem;
+  font-size: 1.9rem;
   text-anchor: middle;
   fill: #fff;
   font-weight: bold;
