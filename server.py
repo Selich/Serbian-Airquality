@@ -6,7 +6,7 @@ from main import predict
 app = Flask(__name__)
 
 def read_prediction(city, interval):
-    return predict(city, int(interval))
+    return predict(city, int(interval * 4 * 24))
 
 def read_data(city):
     df = pd.read_csv("./data/amskv_" + city.strip().lower() + ".csv")

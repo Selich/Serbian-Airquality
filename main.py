@@ -127,15 +127,19 @@ def test_prediction():
     print("mse: " + str(rmse))
     
 def predict(city, interval):
+    data = read_data(city)
+    data.drop(data.tail(1).index,inplace=True)
+    x = data["Vreme"].values
     y = pd.read_csv("./data/aqi_" + city + ".csv")
-    x = np.linspace(0, len(y), len(y))
-    
+
+    x = np.linspace(0,len(x),len(x))
     model = update_weights(x,y)
     b, a = model.w
 
 
     x = np.linspace(0,interval,interval)
     yy = b + a * x
+    yy = yy.mean()
     return yy
 
     
@@ -149,8 +153,10 @@ if __name__ == "__main__":
     }
 
     yy = find_aqi("nis")
-    yy = predict("nis",14)
+    yy = predict("nis",140)
 
+
+    print(yy)
     # lin = np.linspace(0,len(yy),len(yy))
     # plt.scatter(lin, yy, color="g")
     # plt.show()
