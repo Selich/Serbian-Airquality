@@ -2,18 +2,12 @@
 from util.data_processing import *
 from util.testing_functions import *
 from util.helper_functions import *
+from util.aqi import AQI
 import matplotlib.pyplot as plt
-
 # SO2 [ug.m-3],O3 [ug.m-3],NO2 [ug.m-3],NOX [ug.m-3],CO [mg.m-3],NO [ug.m-3],V [m/s],dd [°],P [mb],t [°C],Rh [%]
 
-gradovi = [
-    "novisad", "beograd", "uzice", "cacak", "nis"
-]
-
-
+gradovi = [ "novisad", "beograd", "uzice", "cacak", "nis" ]
 degrees = [i for i in range(1,7)]
-
-
 
 def populate_aqi(data: pd.DataFrame):
     aqi_series = pd.Series(index=data.index)
@@ -33,7 +27,7 @@ def populate_aqi(data: pd.DataFrame):
         
         
 def mse(y,yy,theta):
-    tobesummed = np.power(((y @ theta.T)-yy),2)
+    tobesummed = np.power((y-yy),2)
     return np.sum(tobesummed)/(2 * len(y))
 
 def gradient_descent(X,y,theta,iters,alpha):
@@ -45,60 +39,89 @@ def gradient_descent(X,y,theta,iters,alpha):
     return theta,cost
 
 def norm(data):
-    data = (data - data.mean()) / data.std()
+    data = (data - data.min()) / (data.max() - data.min())
     return data
 
-
-def mutl():
-    beograd = read_data("novisad")
-    nis = read_data("nis")
-    poznati_atributi = ["SO2 [ug.m-3]", "NO2 [ug.m-3]", "CO [mg.m-3]"]
-
-    my_data = beograd[poznati_atributi]
-    my_data = norm(my_data)
-    my_data.drop(my_data.tail(1).index,inplace=True) 
-    X = my_data.iloc[:,0:1]
-    ones = np.ones([X.shape[0],1])
-    X = np.concatenate((ones,X),axis=1)
-    y = my_data.iloc[:,2:3].values 
+def mutlivar(data, atributi):
     theta = np.zeros([1,3])
     alpha = 0.01
     iters = 1000
-    
-    w,cost = gradient_descent(X,y,theta,iters,alpha)
-    print(w)
+    # X1 = data[atributi]
+    X1 = data.iloc[:,0:2]
+    X2 = data.iloc[:,1:3]
+    ones = np.ones([X.shape[0],1])
+    X1 = np.concatenate((ones,X),axis=1)
+    X2 = np.concatenate((ones,X),axis=1)
+    y1 = data.iloc[:,3:4].values 
+    y2 = data.iloc[:,3:4].values 
 
-    finalCost = mse(X,y,w)
-
-    print(finalCost)
-    X = nis[poznati_atributi[0:2]]
-
-    ser = pd.Series(index=nis.index)
-    # for i in range(0,len(X)):
-    #     ser[i] = X.loc[i] @ w.T
-
-
-    print(ser)
-    plt.plot(ser)
-    plt.show()
-
-    
+    w,cost = gradient_descent(X,y,theta,iters,alpha) 
+    w,cost = gradient_descent(X,y,theta,iters,alpha) 
+    return w
 
 def aqi_calc():
-    beograd = read_data("novisad")
+    # hiperparametri
+    theta = np.zeros([1,3])
+    alpha = 0.01
+    iters = 1000
 
+    novisad = read_data("novisad")
+    atributi = [
+        "NO2 [ug.m-3]","SO2 [ug.m-3]","CO [mg.m-3]"
+    ]
+
+    data = novisad[atributi].ffill(axis=0)
+
+    # data = norm(data)
+    data.drop(data.tail(1).index,inplace=True)
+    for i in data.index:
+        val1 = AQI(data.loc[i,atributi[0]],atributi[0]).get_value()
+        val2 = AQI(data.loc[i,atributi[1]],atributi[1]).get_value()
+        val3 = AQI(data.loc[i,atributi[2]],atributi[2]).get_value()
+        data.loc[i,"AQI"] = max( val1, val2, val3 )
+
+    X1 = data.iloc[:,0:2]
+    X1 = norm(X1)
+    ones = np.ones([X1.shape[0],1])
+    X1 = np.concatenate((ones,X1),axis=1)
+    y = data.iloc[:,3:4].values 
+
+    x1_train, x1_test, y_train, y_test = train_test_split(X1,y)
+    w,cost = gradient_descent(x1_train,y_train,theta,iters,alpha) 
+    yy = (x1_test @ w.T)
+    yy2 = (X1 @ w.T)
+    print(w)
+    return w
+
+# TODO: Weights in dict for every atribute
+
+def predict(city):
+    w = aqi_calc()
+
+    data = read_data(city)
+    atributi = ["SO2 [ug.m-3]","NO2 [ug.m-3]"]
+    data = data[atributi]
+    X1 = norm(data.iloc[:,0:2])
+    ones = np.ones([X1.shape[0],1])
+    X1 = np.concatenate((ones,X1),axis=1)
+
+    yy = (X1 @ w.T)
+    yy = np.around(yy, decimals=0)
+    np.savetxt("./data/prediction_.csv" + city + ".csv", yy, delimiter=",")
+    return yy
 
     
 
 if __name__ == "__main__":
+    w = aqi_calc()
+    tezine = {
+        'NO2 [ug.m-3]': w[0][0],
+        'SO2 [ug.m-3]': w[0][1],
+        'CO [ug.m-3]': w[0][2]
+    }
 
+    yy = predict("nis")
 
-
-
-
-
-
-
-    
-    
-
+    lin = np.linspace(0,len(yy),len(yy))
+    plt.scatter(lin, yy, color="g")
+    plt.show()
