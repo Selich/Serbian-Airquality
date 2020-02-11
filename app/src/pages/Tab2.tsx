@@ -1,12 +1,13 @@
 import React from 'react';
 import { IonContent, IonHeader, IonItem, IonLabel, IonList, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import "./Home.css";
 
 const Tab2: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Tab Two</IonTitle>
+          <IonTitle>Prediction</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>

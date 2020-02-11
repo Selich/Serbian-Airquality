@@ -49,7 +49,7 @@ def norm(data):
     return data
 
 
-if __name__ == "__main__":
+def mutl():
     beograd = read_data("novisad")
     nis = read_data("nis")
     poznati_atributi = ["SO2 [ug.m-3]", "NO2 [ug.m-3]", "CO [mg.m-3]"]
@@ -71,10 +71,6 @@ if __name__ == "__main__":
     finalCost = mse(X,y,w)
 
     print(finalCost)
-    
-
-
-
     X = nis[poznati_atributi[0:2]]
 
     ser = pd.Series(index=nis.index)
@@ -85,6 +81,18 @@ if __name__ == "__main__":
     print(ser)
     plt.plot(ser)
     plt.show()
+
+    
+
+def aqi_calc():
+    beograd = read_data("novisad")
+
+
+    
+
+if __name__ == "__main__":
+
+
 
 
 

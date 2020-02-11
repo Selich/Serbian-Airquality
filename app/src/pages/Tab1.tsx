@@ -2,7 +2,11 @@ import {
   IonCard,
   IonCardContent,
   IonCardHeader,
+  IonItemDivider,
   IonCardSubtitle,
+  IonGrid,
+  IonRow,
+  IonCol,
   IonCardTitle,
   IonContent,
   IonHeader,
@@ -14,14 +18,15 @@ import {
   IonPage,
   IonButton,
   IonTitle,
-  IonToolbar
+  IonToolbar,
+  IonText
 } from "@ionic/react";
 import { book, build, colorFill, grid } from "ionicons/icons";
 import React, { useState, useEffect } from "react";
 import { images, flash, send } from "ionicons/icons";
 import ProgressBar from "../components/CircularBar";
 
-import "./Tab1.css";
+import "./Home.css";
 
 import axios from "axios";
 
@@ -49,7 +54,6 @@ const Tab1: React.FunctionComponent = () => {
   const [color, setColor] = useState("");
   const [progress, setProgress] = useState(0);
   const [currAQI, setCurrAQI] = useState(0);
-
 
   useEffect(() => {
     axios.get("/aqi/" + city).then(res => setPastData(res.data));
@@ -82,6 +86,26 @@ const Tab1: React.FunctionComponent = () => {
       </IonHeader>
       <IonContent color="good">
         <ProgressBar {...options} />
+        <IonGrid>
+          <IonRow>
+            <IonCol>
+              {" "}
+              <IonText color="good">
+                {" "}
+                <h4>test </h4>
+              </IonText>{" "}
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol>
+              {" "}
+              <IonText color="good">
+                {" "}
+                <h4>test </h4>
+              </IonText>{" "}
+            </IonCol>
+          </IonRow>
+        </IonGrid>
       </IonContent>
     </IonPage>
   );
