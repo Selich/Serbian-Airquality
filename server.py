@@ -5,7 +5,7 @@ from main import predict
 
 app = Flask(__name__)
 
-def read_prediction_aqi(city, interval):
+def read_prediction(city, interval):
     return predict(city, interval)
 
 def read_data(city):
