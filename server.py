@@ -23,7 +23,7 @@ def get_prediction_city(loc):
 
 @app.route('/')
 def index():
-    return "This home"
+    return "Picko"
 
 
 if __name__ == "__main__":

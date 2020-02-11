@@ -33,7 +33,7 @@ const fetchData = (url: string) =>
 
 // TODO: Color for AQ
 const colorArray = [
-  "#7ea9e1",
+  "#77ee11",
   "#ed004f",
   "#00fcf0",
   "#d2fc00",
@@ -61,7 +61,7 @@ const Tab1: React.FunctionComponent = () => {
 
   const options = {
     size: 250,
-    progress: currAQI,
+    progress: 20,
     strokeWidth: 15,
     circleOneStroke: "#d9edfe",
     circleTwoStroke: colorArray[0]
