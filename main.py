@@ -95,7 +95,7 @@ def aqi_calc():
 
 # TODO: Weights in dict for every atribute
 
-def predict(city):
+def find_aqi(city):
     w = aqi_calc()
 
     data = read_data(city)
@@ -107,7 +107,35 @@ def predict(city):
 
     yy = (X1 @ w.T)
     yy = np.around(yy, decimals=0)
-    np.savetxt("./data/prediction_.csv" + city + ".csv", yy, delimiter=",")
+    np.savetxt("./data/aqi_" + city + ".csv", yy, delimiter=",")
+    return yy
+
+def update_weights(x,y):
+    x_train, x_test, y_train, y_test = train_test_split(x, y)
+    model = Regression(1.)
+    model.fit(x_train, y_train,"ridge")
+    return model
+
+def test_prediction():
+    metric = Metric(y_test, yy_test)
+
+    R2 = metric.eval("r2")
+    mae = metric.eval("mae")
+    rmse = metric.eval("rmse")
+    print("R2: " + str(R2))
+    print("mae: " + str(mae))
+    print("mse: " + str(rmse))
+    
+def predict(city, interval):
+    y = pd.read_csv("./data/aqi_" + city + ".csv")
+    x = np.linspace(0, len(y), len(y))
+    
+    model = update_weights(x,y)
+    b, a = model.w
+
+
+    x = np.linspace(0,interval,interval)
+    yy = b + a * x
     return yy
 
     
@@ -120,8 +148,9 @@ if __name__ == "__main__":
         'CO [ug.m-3]': w[0][2]
     }
 
-    yy = predict("nis")
+    yy = find_aqi("nis")
+    yy = predict("nis",14)
 
-    lin = np.linspace(0,len(yy),len(yy))
-    plt.scatter(lin, yy, color="g")
-    plt.show()
+    # lin = np.linspace(0,len(yy),len(yy))
+    # plt.scatter(lin, yy, color="g")
+    # plt.show()

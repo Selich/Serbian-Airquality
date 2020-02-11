@@ -1,12 +1,12 @@
 import pandas as pd
 import json
 from flask import Flask
+from main import predict
 
 app = Flask(__name__)
 
-def read_prediction_aqi(city):
-    df = pd.read_csv("./data/prediction_" + city.strip().lower() + ".csv")
-    return df.tail().to_json()
+def read_prediction_aqi(city, interval):
+    return predict(city, interval)
 
 def read_data(city):
     df = pd.read_csv("./data/amskv_" + city.strip().lower() + ".csv")
@@ -17,9 +17,9 @@ def read_data(city):
 def get_current_city(loc):
     return read_data(loc)
 
-@app.route('/prediction/<loc>', methods=['GET'])
-def get_prediction_city(loc):
-    return read_prediction(loc)
+@app.route('/prediction/<loc>/<interval>', methods=['GET'])
+def get_prediction_city(loc, interval):
+    return read_prediction(loc, interval)
 
 @app.route('/')
 def index():
