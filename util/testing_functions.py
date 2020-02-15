@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from util.aqi import AQI
-from algorithms.metrics.Metric import Metric
+from algorithms.AQI import AQI
+from algorithms.Metric import Metric
 from sklearn.model_selection import train_test_split
 from algorithms.Regression import *
 

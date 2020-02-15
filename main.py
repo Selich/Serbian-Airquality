@@ -2,7 +2,6 @@
 import argparse
 import matplotlib.pyplot as plt
 from util.data_processing import *
-from util.testing_functions import *
 from algorithms.AQI import *
 from algorithms.Regression import *
 from algorithms.Metric import *

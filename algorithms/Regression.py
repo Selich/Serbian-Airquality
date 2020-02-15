@@ -1,11 +1,9 @@
 import numpy as np
 import pandas as pd
-from algorithms import Model
 from scipy import linalg
 from util.data_processing import *
 from util.testing_functions import *
-from util.helper_functions import *
-from util.aqi import AQI
+from algorithms.AQI import AQI
 
 gradovi = [ "novisad", "beograd", "uzice", "cacak", "nis" ]
         

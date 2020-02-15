@@ -25,6 +25,7 @@ import { book, build, colorFill, grid } from "ionicons/icons";
 import React, { useState, useEffect } from "react";
 import { images, flash, send } from "ionicons/icons";
 import ProgressBar from "../components/CircularBar";
+import Chart from "react-apexcharts";
 
 import "./Home.css";
 
@@ -78,6 +79,23 @@ const Tab1: React.FunctionComponent = () => {
     fontWeight: 900
   };
 
+  const chartOptions = {
+      chart: {
+        id: "basic-bar"
+      },
+      xaxis: {
+        categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
+      }
+  };
+  const series = [
+    {
+      name: "series-1",
+      data: [20,20,30,40,20,10,20]
+    }
+  ]
+
+
+
   return (
     <IonPage>
       <IonHeader>
@@ -107,6 +125,12 @@ const Tab1: React.FunctionComponent = () => {
             </IonCol>
           </IonRow>
         </IonGrid>
+        <Chart
+              options={chartOptions}
+              series={series}
+              type="bar"
+              width="500"
+            />
       </IonContent>
     </IonPage>
   );
