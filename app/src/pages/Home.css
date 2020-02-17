@@ -9,6 +9,10 @@
   --ion-color-base: #224068;
   --ion-color-contrast: #56b4d3;
 }
+.ion-color-text {
+  --ion-color-base: #FFF;
+  --ion-color-contrast: #56b4d3;
+}
 .ion-color-bad {
   --ion-color-base: #224068;
   --ion-color-contrast: #56b4d3;

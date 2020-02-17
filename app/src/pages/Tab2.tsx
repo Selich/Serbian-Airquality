@@ -1,6 +1,7 @@
 import React from 'react';
-import { IonContent, IonHeader, IonItem, IonLabel, IonList, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonGrid, IonCol, IonRow, IonText, IonContent, IonHeader, IonItem, IonLabel, IonList, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import "./Home.css";
+const data = [{name: 'Page A', uv: 400, pv: 2400, amt: 2400}];
 
 const Tab2: React.FC = () => {
   return (
@@ -10,14 +11,7 @@ const Tab2: React.FC = () => {
           <IonTitle>Prediction</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
-        <IonList>
-          <IonItem routerLink="/tab2/details">
-            <IonLabel>
-              <h2>Go to detail</h2>
-            </IonLabel>
-          </IonItem>
-        </IonList>
+      <IonContent color="good">
       </IonContent>
     </IonPage>
   );

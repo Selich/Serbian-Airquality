@@ -6,7 +6,7 @@ def read_data(city, without_nan=True) -> pd.DataFrame:
     df = pd.read_csv("./data/amskv_" + city.strip().lower() + ".csv")
     df = df.drop(["Unnamed: 0"], axis=1)
     if without_nan:
-        df = fill_nan(df, "bfill")
+        df = df.bfill(axis=0)
     return df
 
 def get_all_data() -> pd.DataFrame:

@@ -23,10 +23,12 @@ if __name__ == "__main__":
 
     grad ,interval, stepen = args.grad, int(args.interval), int(args.stepen)
 
+    grad = "nis"
     atributi = ["SO2 [ug.m-3]","NO2 [ug.m-3]"]
     yy = find_and_save_aqi(grad,atributi)
     y = pd.read_csv("./data/aqi_" + grad + ".csv")
     x = np.linspace(0,len(y),len(y))
+
 
     yy1 = predict(grad,interval,1)
     yy2 = predict(grad,interval,2)

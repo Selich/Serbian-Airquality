@@ -1,4 +1,5 @@
 import numpy as np
+from collections import OrderedDict
 import pandas as pd
 from scipy import linalg
 from util.data_processing import *
@@ -58,10 +59,10 @@ def find_and_save_aqi(city, atributi):
     X1 = np.concatenate((ones,X1),axis=1)
 
     yy = (X1 @ w.T)
-    yy = np.around(yy, decimals=0)
     np.savetxt("./data/aqi_" + city + ".csv", yy, delimiter=",")
+    return yy
 
-def test_prediction():
+def test_prediction(y_test, yy_test):
     metric = Metric(y_test, yy_test)
 
     R2 = metric.eval("r2")
@@ -76,11 +77,12 @@ def predict(city, interval, stepen):
     data.drop(data.tail(1).index,inplace=True)
     x = data["Vreme"].values
     y = pd.read_csv("./data/aqi_" + city + ".csv")
-
     x = np.linspace(0,len(x),len(x))
+
+    x_train, x_test, y_train, y_test = train_test_split(x,y, train_size=0.8, test_size=0.2)
+
     model = Regression()
-    yy = model.fit(x,y,stepen)
-    return yy
+    return model.fit(x_train,y_train,stepen)
 
 class MultiVariant():
 
@@ -108,33 +110,34 @@ class MultiVariant():
         yy = (x1_test @ w.T)
         yy2 = (X1 @ w.T)
         self.w = w
-    
-        
+
 class Regression():
 
-    def __init__(self,lambda_=1.):
-        self.lambda_ = lambda_
-        self.w = None
+    def __init__(self):
+            self.w = None
+            self.lambda_ = 0.1
+
 
     def fit(self, x, t, stepen, mode="ridge"):
-
         if stepen == 1:
-            xtil = np.c_[np.ones(x.shape[0]), x]
-
-            c = np.eye(xtil.shape[1])
-
+            Xtil = np.c_[np.ones(x.shape[0]), x]
+            c = np.eye(Xtil.shape[1])
+        
             if mode.lower() == "ridge":
                 c = c ** 2
             elif mode.lower() == "lasso":
-                c = np.norm(c)
+                c = np.linalg.norm(c)
 
-            a = np.dot(xtil.T, xtil) + self.lambda_ * c
-            b = np.dot(xtil.T, t)
-            w1,w2 = linalg.solve(a, b)
-            return w1 + w2 * x
+            a = np.dot(Xtil.T, Xtil) + self.lambda_ * c
+            b = np.dot(Xtil.T, t)
+            self.w = linalg.solve(a, b)
+            # return self.w[0] + self.w[1] * x
         elif stepen == 2:
             self.w = np.polyfit(x,t,2)
-            return self.w[2] + self.w[1] * x + self.w[0] * x ** 2
+            # return self.w[2] + self.w[1] * x + self.w[0] * x ** 2
         elif stepen == 3:
             self.w = np.polyfit(x,t,3)
-            return self.w[3] + self.w[2] * x + self.w[1] * x ** 2 + self.w[0] * x ** 3
+            # return self.w[3] + self.w[2] * x + self.w[1] * x ** 2 + self.w[0] * x ** 3
+        return self.w
+
+        

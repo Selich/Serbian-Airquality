@@ -1,22 +1,11 @@
 import {
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonItemDivider,
-  IonCardSubtitle,
   IonGrid,
   IonRow,
   IonCol,
   IonCardTitle,
   IonContent,
   IonHeader,
-  IonIcon,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonListHeader,
   IonPage,
-  IonButton,
   IonTitle,
   IonToolbar,
   IonText
@@ -25,17 +14,10 @@ import { book, build, colorFill, grid } from "ionicons/icons";
 import React, { useState, useEffect } from "react";
 import { images, flash, send } from "ionicons/icons";
 import ProgressBar from "../components/CircularBar";
-import Chart from "react-apexcharts";
 
 import "./Home.css";
 
 import axios from "axios";
-
-const fetchData = (url: string) =>
-  axios.get(url).then(res => {
-    console.log(res);
-    return res.data;
-  });
 
 // TODO: Color for AQ
 const colorArray = [
@@ -80,21 +62,19 @@ const Tab1: React.FunctionComponent = () => {
   };
 
   const chartOptions = {
-      chart: {
-        id: "basic-bar"
-      },
-      xaxis: {
-        categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
-      }
+    chart: {
+      id: "basic-bar"
+    },
+    xaxis: {
+      categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
+    }
   };
   const series = [
     {
       name: "series-1",
-      data: [20,20,30,40,20,10,20]
+      data: [20, 20, 30, 40, 20, 10, 20]
     }
-  ]
-
-
+  ];
 
   return (
     <IonPage>
@@ -108,29 +88,27 @@ const Tab1: React.FunctionComponent = () => {
         <IonGrid>
           <IonRow>
             <IonCol>
-              {" "}
-              <IonText color="good">
-                {" "}
-                <h4>test </h4>
-              </IonText>{" "}
+              <IonText color="text">O3: 35.36</IonText>
+            </IonCol>
+            <IonCol>
+              <IonText color="text">NO2: 21.23</IonText>
+            </IonCol>
+            <IonCol>
+              <IonText color="text">NOX: 31.44</IonText>
             </IonCol>
           </IonRow>
           <IonRow>
             <IonCol>
-              {" "}
-              <IonText color="good">
-                {" "}
-                <h4>test </h4>
-              </IonText>{" "}
+              <IonText color="text">CO: 6.67</IonText>
+            </IonCol>
+            <IonCol>
+              <IonText color="text">NO: 17.04</IonText>
+            </IonCol>
+            <IonCol>
+              <IonText color="text">PM1: 93.992</IonText>
             </IonCol>
           </IonRow>
         </IonGrid>
-        <Chart
-              options={chartOptions}
-              series={series}
-              type="bar"
-              width="500"
-            />
       </IonContent>
     </IonPage>
   );
