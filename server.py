@@ -2,11 +2,15 @@ import pandas as pd
 import json
 from flask import Flask
 from main import predict
+from algorithms.Regression import *
+from sklearn.model_selection import train_test_split
+
 
 app = Flask(__name__)
 
 def read_prediction(city, interval):
-    return predict(city, int(interval) * 4 * 24)
+    y = pd.read_csv("./data/aqi_" + city + ".csv")
+    return y[-interval:]
 
 def read_data(city):
     df = pd.read_csv("./data/amskv_" + city.strip().lower() + ".csv")

@@ -49,7 +49,7 @@ const Tab2 = () => {
   const [city, setCity] = useState("novisad");
 
   useEffect(() => {
-    axios.get("/prediction/" + city).then(res => setData(res.data));
+    axios.get("/prediction/" + city + "/7").then(res => setData(res.data));
     console.log(data);
   }, [city]);
 
