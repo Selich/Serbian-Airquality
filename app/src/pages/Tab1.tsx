@@ -40,7 +40,6 @@ const Tab1: React.FunctionComponent = () => {
 
   useEffect(() => {
     axios.get("/aqi/" + city).then(res => setPastData(res.data));
-    axios.get("/prediction/" + city).then(res => console.log(res.data));
   }, [city]);
 
   const randomColor = () => {
