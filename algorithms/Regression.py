@@ -117,7 +117,6 @@ class Regression():
             self.w = None
             self.lambda_ = 0.1
 
-
     def fit(self, x, t, stepen, mode="ridge"):
         if stepen == 1:
             Xtil = np.c_[np.ones(x.shape[0]), x]

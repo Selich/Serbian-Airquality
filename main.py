@@ -5,6 +5,13 @@ from util.data_processing import *
 from algorithms.AQI import *
 from algorithms.Regression import *
 from algorithms.Metric import *
+from algorithms.PolynomialRegression import PolynomialRegression
+from sklearn.model_selection import train_test_split
+import pandas as pd 
+import numpy as np 
+
+def main():
+    city = "nis"
 
 gradovi = [ "novisad", "beograd", "uzice", "cacak", "nis" ]
 
@@ -28,6 +35,17 @@ if __name__ == "__main__":
     yy = find_and_save_aqi(grad,atributi)
     y = pd.read_csv("./data/aqi_" + grad + ".csv")
     x = np.linspace(0,len(y),len(y))
+
+'''
+    y = y.to_numpy()
+    y = y[-100:]
+    x = np.linspace(0, len(y), len(y))
+
+    PR = PolynomialRegression(x, y)
+    theta = PR.fit(order = 2, tol = 10**-3, numIters = 100, alpha = 10**-3)
+    PR.plot_predicted()
+    PR.plot_cost()
+    '''
 
 
     yy1 = predict(grad,interval,1)
