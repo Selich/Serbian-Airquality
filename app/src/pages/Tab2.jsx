@@ -19,7 +19,15 @@ import { Line } from "react-chartjs-2";
 import "./Home.css";
 
 const data = {
-  labels: ["January", "February", "March", "April", "May", "June", "July"],
+  labels: [
+    "27.11.",
+    "28.11.",
+    "29.11.",
+    "30.11.",
+    "01.12.",
+    "02.12.",
+    "03.12."
+  ],
   datasets: [
     {
       label: "Predicted value of AQI",
@@ -37,21 +45,80 @@ const data = {
       pointHoverRadius: 5,
       pointHoverBackgroundColor: "rgba(75,192,192,1)",
       pointHoverBorderColor: "rgba(220,220,220,1)",
+      color: "rgba(0,0,0,1)",
+      zeroLineColor: "white",
       pointHoverBorderWidth: 2,
       pointRadius: 2,
       pointHitRadius: 10,
-      data: [65, 59, 80, 81, 56, 55, 40]
+      data: [
+        17,
+        17,
+        16,
+        18,
+        20,
+        17,
+        18,
+        16,
+        15,
+        15,
+        16,
+        19,
+        19,
+        19,
+        19,
+        18,
+        18,
+        19,
+        20,
+        19,
+        23,
+        25,
+        24,
+        19,
+        17,
+        17,
+        16,
+        17,
+        20,
+        22,
+        21,
+        22,
+        21,
+        21,
+        21,
+        21,
+        20,
+        20,
+        19,
+        19,
+        18,
+        18,
+        17,
+        17,
+        17,
+        17,
+        16,
+        16,
+        16,
+        16,
+        17,
+        18,
+        20,
+        19,
+        18,
+        18,
+        17,
+        18,
+        18,
+        19,
+        21,
+        22
+      ]
     }
   ]
 };
 const Tab2 = () => {
-  const [data, setData] = useState([]);
   const [city, setCity] = useState("novisad");
-
-  useEffect(() => {
-    axios.get("/prediction/" + city + "/7").then(res => setData(res.data));
-    console.log(data);
-  }, [city]);
 
   return (
     <IonPage>
@@ -92,4 +159,3 @@ const Tab2 = () => {
 };
 
 export default Tab2;
-

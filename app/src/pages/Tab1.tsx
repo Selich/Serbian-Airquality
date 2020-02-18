@@ -1,14 +1,17 @@
 import {
   IonGrid,
   IonRow,
+  IonSelect,
   IonCol,
   IonCardTitle,
+  IonSelectOption,
   IonContent,
   IonHeader,
   IonPage,
   IonTitle,
   IonToolbar,
-  IonText
+  IonText,
+  IonItem
 } from "@ionic/react";
 import { book, build, colorFill, grid } from "ionicons/icons";
 import React, { useState, useEffect } from "react";
@@ -37,9 +40,11 @@ const Tab1: React.FunctionComponent = () => {
   const [color, setColor] = useState("");
   const [progress, setProgress] = useState(0);
   const [currAQI, setCurrAQI] = useState(0);
+  const [restData, setRestData] = useState([]);
 
   useEffect(() => {
-    axios.get("/aqi/" + city).then(res => setPastData(res.data));
+    axios.get("/aqi/" + city).then(res => setCurrAQI(res.data));
+    axios.get("/rest/" + city).then(res => setRestData(res.data));
   }, [city]);
 
   const randomColor = () => {
@@ -54,32 +59,26 @@ const Tab1: React.FunctionComponent = () => {
     circleTwoStroke: colorArray[0]
   };
 
-  const backgroundStyle = {
-    backgroundColor: "green",
-    fontSize: 22,
-    fontWeight: 900
+  const handleSelect = (e: any) => {
+    console.log(city);
+    setCity(e.target.value);
   };
-
-  const chartOptions = {
-    chart: {
-      id: "basic-bar"
-    },
-    xaxis: {
-      categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
-    }
-  };
-  const series = [
-    {
-      name: "series-1",
-      data: [20, 20, 30, 40, 20, 10, 20]
-    }
-  ];
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Novi Sad</IonTitle>
+          <IonSelect
+            value="novisad"
+            okText="Okay"
+            onIonChange={handleSelect}
+            cancelText="Dismiss"
+          >
+            <IonSelectOption value="novisad">Novi Sad</IonSelectOption>
+            <IonSelectOption value="beograd">Beograd</IonSelectOption>
+            <IonSelectOption value="nis">Niš</IonSelectOption>
+            <IonSelectOption value="kragujevac">Kragujevac</IonSelectOption>
+          </IonSelect>
         </IonToolbar>
       </IonHeader>
       <IonContent color="good">

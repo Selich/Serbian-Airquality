@@ -17,7 +17,16 @@ def read_data(city):
     df = df.drop(["Unnamed: 0"], axis=1)
     return df.tail().to_json()
 
+def read_aqi(city):
+    df = pd.read_csv("./data/aqi_" + city.strip().lower() + ".csv")
+    df = df.to_numpy()
+    return df[-1:]
+
 @app.route('/aqi/<loc>', methods=['GET'])
+def get_current_city(loc):
+    return read_aqi(loc)
+
+@app.route('/rest/<loc>', methods=['GET'])
 def get_current_city(loc):
     return read_data(loc)
 
