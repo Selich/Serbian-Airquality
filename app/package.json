@@ -63,5 +63,5 @@
     "@capacitor/cli": "1.5.0"
   },
   "description": "An Ionic project",
-  "proxy": "https://flask-app-airquality.herokuapp.com"
+  "proxy": "http://127.0.0.1:5000"
 }

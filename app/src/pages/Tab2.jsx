@@ -119,6 +119,14 @@ const data = {
 };
 const Tab2 = () => {
   const [city, setCity] = useState("novisad");
+  const [futureData, setFutureData] = useState([]);
+
+  useEffect(() => {
+    axios.get("/prediction/" + city + "/14").then(res => {
+      console.log(res.data);
+      setFutureData(res.data);
+    });
+  }, [city]);
 
   return (
     <IonPage>
@@ -129,30 +137,6 @@ const Tab2 = () => {
       </IonHeader>
       <IonContent color="good">
         <Line data={data} title="My amazing data" color="#70CAD1" />
-        <IonGrid>
-          <IonRow>
-            <IonCol>
-              <IonText color="text">O3: 35.36</IonText>
-            </IonCol>
-            <IonCol>
-              <IonText color="text">NO2: 21.23</IonText>
-            </IonCol>
-            <IonCol>
-              <IonText color="text">NOX: 31.44</IonText>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-              <IonText color="text">CO: 6.67</IonText>
-            </IonCol>
-            <IonCol>
-              <IonText color="text">NO: 17.04</IonText>
-            </IonCol>
-            <IonCol>
-              <IonText color="text">PM1: 93.992</IonText>
-            </IonCol>
-          </IonRow>
-        </IonGrid>
       </IonContent>
     </IonPage>
   );
